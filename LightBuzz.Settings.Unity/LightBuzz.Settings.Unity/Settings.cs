@@ -44,6 +44,17 @@ namespace LightBuzz.Settings
         /// <returns>The content of the specified setting.</returns>
         public static object Get(string key)
         {
+            return Get(key, default(object));
+        }
+
+        /// <summary>
+        /// Retrieves the contents of the specified setting key.
+        /// </summary>
+        /// <param name="key">The name of the setting.</param>
+        /// <param name="defaultValue">The default value returned, if the key isn't found.</param>
+        /// <returns>The content of the specified setting.</returns>
+        public static object Get(string key, object defaultValue)
+        {
             if (PlayerPrefs.HasKey(Prefix + key))
             {
                 Type type = Type.GetType(PlayerPrefs.GetString(Prefix + key));
@@ -64,7 +75,7 @@ namespace LightBuzz.Settings
                 }
             }
 
-            return default(object);
+            return defaultValue;
         }
 
         /// <summary>
