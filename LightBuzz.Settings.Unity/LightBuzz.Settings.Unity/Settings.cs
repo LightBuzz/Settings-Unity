@@ -8,40 +8,38 @@ namespace LightBuzz.Settings
     /// </summary>
     public static class Settings
     {
-        private readonly static string Prefix = "lightbuzz_type_";
-
         /// <summary>
         /// Inserts the specified value to the specified settings key, or creates a new pair.
         /// </summary>
         /// <param name="key">The name of the setting.</param>
         /// <param name="value">The content of the setting.</param>
-        public static void Set(string key, object value)
+        public static void Set<T>(string key, T value)
         {
-            PlayerPrefs.SetString(Prefix + key, value.GetType().ToString());
+            Type type = typeof(T);
 
-            if (value is int)
+            if (type == typeof(int))
             {
-                PlayerPrefs.SetInt(key, (int)value);
+                PlayerPrefs.SetInt(key, Convert.ToInt32(value));
             }
-            if (value is bool)
+            else if (type == typeof(bool))
             {
-                PlayerPrefs.SetInt(key, (bool)value ? 1 : 0);
+                PlayerPrefs.SetInt(key, Convert.ToBoolean(value) ? 1 : 0);
             }
-            else if (value is double)
+            else if (type == typeof(float))
             {
-                PlayerPrefs.SetFloat(key, (float)value);
+                PlayerPrefs.SetFloat(key, Convert.ToSingle(value));
             }
-            else if (value is float)
+            else if (type == typeof(double))
             {
-                PlayerPrefs.SetFloat(key, (float)value);
+                PlayerPrefs.SetString(key, Convert.ToString(value));
             }
-            else if (value is string)
+            else if (type == typeof(string))
             {
-                PlayerPrefs.SetString(key, (string)value);
+                PlayerPrefs.SetString(key, Convert.ToString(value));
             }
             else
             {
-                PlayerPrefs.SetString(key, value.ToString());
+                PlayerPrefs.SetString(key, Convert.ToString(value));
             }
         }
 
@@ -50,9 +48,9 @@ namespace LightBuzz.Settings
         /// </summary>
         /// <param name="key">The name of the setting.</param>
         /// <returns>The content of the specified setting.</returns>
-        public static object Get(string key)
+        public static T Get<T>(string key)
         {
-            return Get(key, default(object));
+            return Get(key, default(T));
         }
 
         /// <summary>
@@ -61,35 +59,35 @@ namespace LightBuzz.Settings
         /// <param name="key">The name of the setting.</param>
         /// <param name="defaultValue">The default value returned, if the key isn't found.</param>
         /// <returns>The content of the specified setting.</returns>
-        public static object Get(string key, object defaultValue)
+        public static T Get<T>(string key, T defaultValue)
         {
-            if (PlayerPrefs.HasKey(Prefix + key))
+            if (PlayerPrefs.HasKey(key))
             {
-                Type type = Type.GetType(PlayerPrefs.GetString(Prefix + key));
+                Type type = typeof(T);
 
                 if (type == typeof(int))
                 {
-                    return PlayerPrefs.GetInt(key);
+                    return (T)Convert.ChangeType(PlayerPrefs.GetInt(key), type);
                 }
 
                 if (type == typeof(bool))
                 {
-                    return PlayerPrefs.GetInt(key);
+                    return (T)Convert.ChangeType(PlayerPrefs.GetInt(key) == 0 ? false : true, type);
                 }
 
                 if (type == typeof(float))
                 {
-                    return PlayerPrefs.GetFloat(key);
+                    return (T)Convert.ChangeType(PlayerPrefs.GetFloat(key), type);
                 }
 
                 if (type == typeof(double))
                 {
-                    return PlayerPrefs.GetFloat(key);
+                    return (T)Convert.ChangeType(double.Parse(PlayerPrefs.GetString(key)), type);
                 }
 
                 if (type == typeof(string))
                 {
-                    return PlayerPrefs.GetString(key);
+                    return (T)Convert.ChangeType(PlayerPrefs.GetString(key), type);
                 }
             }
 
@@ -102,11 +100,6 @@ namespace LightBuzz.Settings
         /// <param name="key">The name of the setting.</param>
         public static void Remove(string key)
         {
-            if (PlayerPrefs.HasKey(Prefix + key))
-            {
-                PlayerPrefs.DeleteKey(Prefix + key);
-            }
-
             if (PlayerPrefs.HasKey(key))
             {
                 PlayerPrefs.DeleteKey(key);
