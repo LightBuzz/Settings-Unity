@@ -8,7 +8,7 @@ namespace LightBuzz.Settings
     /// </summary>
     public static class Settings
     {
-        private readonly static string Prefix = "type_";
+        private readonly static string Prefix = "lightbuzz_type_";
 
         /// <summary>
         /// Inserts the specified value to the specified settings key, or creates a new pair.
@@ -22,6 +22,10 @@ namespace LightBuzz.Settings
             if (value is int)
             {
                 PlayerPrefs.SetInt(key, (int)value);
+            }
+            else if (value is double)
+            {
+                PlayerPrefs.SetFloat(key, (float)value);
             }
             else if (value is float)
             {
