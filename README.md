@@ -15,19 +15,28 @@ using LightBuzz.Settings;
 ### Add / Update a setting
 
 ```
-Settings.Set("name", "Vangos Pterneas");
+Settings.Set<string>("name", "Vangos Pterneas");
+Settings.Set<int>("age", 30);
+Settings.Set<bool>("nice_guy", true);
+Settings.Set<float>("height", 1.67f);
 ```
 
 ### Retrieve a setting
 
 ```
-string name = (string)Settings.Get("name");
+string name = Settings.Get<string>("name");
+int age = Settings.Get<int>("age");
+bool niceGuy = Settings.Get<bool>("nice_guy");
+float height = Settings.Get<float>("height");
 ```
 
 ### Delete a setting
 
 ```
 Settings.Remove("name");
+Settings.Remove("age");
+Settings.Remove("nice_guy");
+Settings.Remove("height");
 ```
 
 ## Contributors
