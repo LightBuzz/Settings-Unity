@@ -23,6 +23,10 @@ namespace LightBuzz.Settings
             {
                 PlayerPrefs.SetInt(key, (int)value);
             }
+            if (value is bool)
+            {
+                PlayerPrefs.SetInt(key, (bool)value ? 1 : 0);
+            }
             else if (value is double)
             {
                 PlayerPrefs.SetFloat(key, (float)value);
@@ -68,7 +72,17 @@ namespace LightBuzz.Settings
                     return PlayerPrefs.GetInt(key);
                 }
 
+                if (type == typeof(bool))
+                {
+                    return PlayerPrefs.GetInt(key);
+                }
+
                 if (type == typeof(float))
+                {
+                    return PlayerPrefs.GetFloat(key);
+                }
+
+                if (type == typeof(double))
                 {
                     return PlayerPrefs.GetFloat(key);
                 }
