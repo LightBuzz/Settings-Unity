@@ -7,8 +7,8 @@
     <ProjectGuid>{2969CC33-F971-4140-81FF-E2846190C40B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LightBuzz.Settings.Unity</RootNamespace>
-    <AssemblyName>LightBuzz.Settings.Unity</AssemblyName>
+    <RootNamespace>LightBuzz.Settings</RootNamespace>
+    <AssemblyName>LightBuzz.Settings</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
