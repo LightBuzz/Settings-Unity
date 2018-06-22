@@ -17,13 +17,21 @@ namespace LightBuzz.Settings
         {
             Type type = typeof(T);
 
-            if (type == typeof(int))
+            if (type == typeof(bool))
+            {
+                PlayerPrefs.SetInt(key, Convert.ToBoolean(value) ? 1 : 0);
+            }
+            else if (type == typeof(int))
             {
                 PlayerPrefs.SetInt(key, Convert.ToInt32(value));
             }
-            else if (type == typeof(bool))
+            else if (type == typeof(short))
             {
-                PlayerPrefs.SetInt(key, Convert.ToBoolean(value) ? 1 : 0);
+                PlayerPrefs.SetInt(key, Convert.ToInt16(value));
+            }
+            else if (type == typeof(long))
+            {
+                PlayerPrefs.SetString(key, Convert.ToString(value));
             }
             else if (type == typeof(float))
             {
@@ -34,6 +42,14 @@ namespace LightBuzz.Settings
                 PlayerPrefs.SetString(key, Convert.ToString(value));
             }
             else if (type == typeof(string))
+            {
+                PlayerPrefs.SetString(key, Convert.ToString(value));
+            }
+            else if (type == typeof(DateTime))
+            {
+                PlayerPrefs.SetString(key, Convert.ToString(value));
+            }
+            else if (type == typeof(Guid))
             {
                 PlayerPrefs.SetString(key, Convert.ToString(value));
             }
@@ -65,14 +81,24 @@ namespace LightBuzz.Settings
             {
                 Type type = typeof(T);
 
+                if (type == typeof(bool))
+                {
+                    return (T)Convert.ChangeType(PlayerPrefs.GetInt(key) == 0 ? false : true, type);
+                }
+
                 if (type == typeof(int))
                 {
                     return (T)Convert.ChangeType(PlayerPrefs.GetInt(key), type);
                 }
 
-                if (type == typeof(bool))
+                if (type == typeof(short))
                 {
-                    return (T)Convert.ChangeType(PlayerPrefs.GetInt(key) == 0 ? false : true, type);
+                    return (T)Convert.ChangeType(PlayerPrefs.GetInt(key), type);
+                }
+
+                if (type == typeof(long))
+                {
+                    return (T)Convert.ChangeType(long.Parse(PlayerPrefs.GetString(key)), type);
                 }
 
                 if (type == typeof(float))
@@ -88,6 +114,16 @@ namespace LightBuzz.Settings
                 if (type == typeof(string))
                 {
                     return (T)Convert.ChangeType(PlayerPrefs.GetString(key), type);
+                }
+
+                if (type == typeof(DateTime))
+                {
+                    return (T)Convert.ChangeType(DateTime.Parse(PlayerPrefs.GetString(key)), type);
+                }
+
+                if (type == typeof(Guid))
+                {
+                    return (T)Convert.ChangeType(new Guid(PlayerPrefs.GetString(key)), type);
                 }
             }
 
