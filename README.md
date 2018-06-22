@@ -1,11 +1,37 @@
 # Settings utility for Unity apps
 
-An easy-to-use mchanism for managing the settings within a Unity app.
+An easy-to-use mechanism for managing your game settings (```PlayerPrefs```) within your Unity app. The ```LightBuzz.Settings``` framework is exposing a generic C# API that allows you to store a lot of different value types.
 
-## Installation
-Simply drag-and-drop the ```Settings.cs``` file in your Assets folder.
+```
+DateTime date = Settings.Get<DateTime>("date_time_key");
+```
+
+## Supported data types
+
+The following data types are currently supported:
+
+* ```bool```
+* ```int```
+* ```short```
+* ```long```
+* ```float```
+* ```double```
+* ```DateTime```
+* ```Guid```
+
+## Supported Platforms
+
+The ```LightBuzz.Settings``` framework supports all of the Unity platforms:
+
+* Android
+* iOS
+* Standalone (Windows & Mac OS X)
+* Universal Windows Platform (UWP)
+* HoloLens
 
 ## Examples
+
+Simply drag-and-drop the ```Settings.cs``` or the ```LightBuzz.Settings.dll``` file in your Assets folder.
 Import the assembly to your project and include its namespace:
 
 ```
@@ -16,27 +42,27 @@ using LightBuzz.Settings;
 
 ```
 Settings.Set<string>("name", "Vangos Pterneas");
-Settings.Set<int>("age", 30);
 Settings.Set<bool>("nice_guy", true);
-Settings.Set<float>("height", 1.67f);
+Settings.Set<double>("height", 1.670);
+Settings.Set<DateTime>("birthday", new DateTime(1988, 05, 20));
 ```
 
 ### Retrieve a setting
 
 ```
 string name = Settings.Get<string>("name");
-int age = Settings.Get<int>("age");
 bool niceGuy = Settings.Get<bool>("nice_guy");
-float height = Settings.Get<float>("height");
+double height = Settings.Get<double>("height");
+DateTime birthday = Settings.Get<DateTime>("birthday");
 ```
 
 ### Delete a setting
 
 ```
 Settings.Remove("name");
-Settings.Remove("age");
 Settings.Remove("nice_guy");
 Settings.Remove("height");
+Settings.Remove("birthday");
 ```
 
 ## Contributors
