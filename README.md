@@ -16,6 +16,7 @@ The following data types are currently supported:
 * ```long```
 * ```float```
 * ```double```
+* ```string```
 * ```DateTime```
 * ```Guid```
 
