@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine;
+using System.Globalization;
 
 namespace LightBuzz.Settings
 {
@@ -9,54 +9,30 @@ namespace LightBuzz.Settings
     public static class Settings
     {
         /// <summary>
+        /// Initializes the settings module.
+        /// </summary>
+        public static void Initialize()
+        {
+            PlayerPrefsEx.Instance.Initialize(UnityEngine.Application.persistentDataPath);
+        }
+
+        /// <summary>
+        /// Initializes the settings module.
+        /// </summary>
+        /// <param name="root">The root of the application, where the settings folder will be stored.</param>
+        public static void Initialize(string root)
+        {
+            PlayerPrefsEx.Instance.Initialize(root);
+        }
+
+        /// <summary>
         /// Inserts the specified value to the specified settings key, or creates a new pair.
         /// </summary>
         /// <param name="key">The name of the setting.</param>
         /// <param name="value">The content of the setting.</param>
         public static void Set<T>(string key, T value)
         {
-            Type type = typeof(T);
-
-            if (type == typeof(bool))
-            {
-                PlayerPrefs.SetInt(key, Convert.ToBoolean(value) ? 1 : 0);
-            }
-            else if (type == typeof(int))
-            {
-                PlayerPrefs.SetInt(key, Convert.ToInt32(value));
-            }
-            else if (type == typeof(short))
-            {
-                PlayerPrefs.SetInt(key, Convert.ToInt16(value));
-            }
-            else if (type == typeof(long))
-            {
-                PlayerPrefs.SetString(key, Convert.ToString(value));
-            }
-            else if (type == typeof(float))
-            {
-                PlayerPrefs.SetFloat(key, Convert.ToSingle(value));
-            }
-            else if (type == typeof(double))
-            {
-                PlayerPrefs.SetString(key, Convert.ToString(value));
-            }
-            else if (type == typeof(string))
-            {
-                PlayerPrefs.SetString(key, Convert.ToString(value));
-            }
-            else if (type == typeof(DateTime))
-            {
-                PlayerPrefs.SetString(key, Convert.ToString(value));
-            }
-            else if (type == typeof(Guid))
-            {
-                PlayerPrefs.SetString(key, Convert.ToString(value));
-            }
-            else
-            {
-                PlayerPrefs.SetString(key, Convert.ToString(value));
-            }
+            PlayerPrefsEx.Instance.Set(key, Convert.ToString(value));
         }
 
         /// <summary>
@@ -77,53 +53,55 @@ namespace LightBuzz.Settings
         /// <returns>The content of the specified setting.</returns>
         public static T Get<T>(string key, T defaultValue)
         {
-            if (PlayerPrefs.HasKey(key))
+            if (PlayerPrefsEx.Instance.Has(key))
             {
                 Type type = typeof(T);
 
+                string value = PlayerPrefsEx.Instance.Get(key);
+
                 if (type == typeof(bool))
                 {
-                    return (T)Convert.ChangeType(PlayerPrefs.GetInt(key) == 0 ? false : true, type);
+                    return (T)Convert.ChangeType(bool.Parse(value), type);
                 }
 
                 if (type == typeof(int))
                 {
-                    return (T)Convert.ChangeType(PlayerPrefs.GetInt(key), type);
+                    return (T)Convert.ChangeType(int.Parse(value, CultureInfo.InvariantCulture), type);
                 }
 
                 if (type == typeof(short))
                 {
-                    return (T)Convert.ChangeType(PlayerPrefs.GetInt(key), type);
+                    return (T)Convert.ChangeType(short.Parse(value, CultureInfo.InvariantCulture), type);
                 }
 
                 if (type == typeof(long))
                 {
-                    return (T)Convert.ChangeType(long.Parse(PlayerPrefs.GetString(key)), type);
+                    return (T)Convert.ChangeType(long.Parse(value, CultureInfo.InvariantCulture), type);
                 }
 
                 if (type == typeof(float))
                 {
-                    return (T)Convert.ChangeType(PlayerPrefs.GetFloat(key), type);
+                    return (T)Convert.ChangeType(float.Parse(value, CultureInfo.InvariantCulture), type);
                 }
 
                 if (type == typeof(double))
                 {
-                    return (T)Convert.ChangeType(double.Parse(PlayerPrefs.GetString(key)), type);
+                    return (T)Convert.ChangeType(double.Parse(value, CultureInfo.InvariantCulture), type);
                 }
 
                 if (type == typeof(string))
                 {
-                    return (T)Convert.ChangeType(PlayerPrefs.GetString(key), type);
+                    return (T)Convert.ChangeType(value, type);
                 }
 
                 if (type == typeof(DateTime))
                 {
-                    return (T)Convert.ChangeType(DateTime.Parse(PlayerPrefs.GetString(key)), type);
+                    return (T)Convert.ChangeType(DateTime.Parse(value, CultureInfo.InvariantCulture), type);
                 }
 
                 if (type == typeof(Guid))
                 {
-                    return (T)Convert.ChangeType(new Guid(PlayerPrefs.GetString(key)), type);
+                    return (T)Convert.ChangeType(new Guid(value), type);
                 }
             }
 
@@ -136,10 +114,7 @@ namespace LightBuzz.Settings
         /// <param name="key">The name of the setting.</param>
         public static void Remove(string key)
         {
-            if (PlayerPrefs.HasKey(key))
-            {
-                PlayerPrefs.DeleteKey(key);
-            }
+            PlayerPrefsEx.Instance.Delete(key);
         }
     }
 }
