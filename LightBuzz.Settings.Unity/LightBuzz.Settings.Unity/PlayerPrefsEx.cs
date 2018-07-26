@@ -47,16 +47,23 @@ namespace LightBuzz.Settings
 
         public void Initialize(string root)
         {
-            _dataPath = root;
-
-            SettingsDirectory = Path.Combine(_dataPath, SettingsFolderName);
-
-            if (!Directory.Exists(SettingsDirectory))
+            if (root != _dataPath)
             {
-                Directory.CreateDirectory(SettingsDirectory);
+                _dataPath = root;
+                _initialized = false;
             }
 
-            _initialized = true;
+            if (!_initialized)
+            {
+                SettingsDirectory = Path.Combine(_dataPath, SettingsFolderName);
+
+                if (!Directory.Exists(SettingsDirectory))
+                {
+                    Directory.CreateDirectory(SettingsDirectory);
+                }
+
+                _initialized = true;
+            }
         }
 
         public void Set(string key, string value)

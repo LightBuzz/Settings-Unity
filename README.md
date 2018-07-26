@@ -32,11 +32,23 @@ The ```LightBuzz.Settings``` framework supports all of the Unity platforms:
 
 ## Examples
 
-Simply drag-and-drop the ```Settings.cs``` or the ```LightBuzz.Settings.dll``` file in your Assets folder.
-Import the assembly to your project and include its namespace:
+Simply import the [latest Unity Package](https://github.com/LightBuzz/Settings-Unity/releases/latest) or the ```LightBuzz.Settings.dll``` file in your Assets folder.
+
+### Initialization
+
+Upon importing the assembly to your project, include its namespace in your C# file:
 
 ```
 using LightBuzz.Settings;
+```
+
+Then, initialize the Settings module from Unity's main thread:
+
+```
+private void Start()
+{
+   Settings.Initialize();
+}
 ```
 
 ### Add / Update a setting
