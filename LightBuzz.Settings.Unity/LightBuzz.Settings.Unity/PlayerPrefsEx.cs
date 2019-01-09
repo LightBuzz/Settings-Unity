@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace LightBuzz.Settings
 {
@@ -35,15 +38,17 @@ namespace LightBuzz.Settings
 
         #endregion
 
-        private readonly string SettingsFolderName = "Settings";
+        private readonly string SettingsFileName = "Settings.lbz";
 
         private string _dataPath;
         private bool _initialized = false;
 
+        private Dictionary<string, string> _settings;
+
         /// <summary>
         /// The directory where the settings key/values will be stored.
         /// </summary>
-        public string SettingsDirectory { get; private set; }
+        public string SettingsFilePath { get; private set; }
 
         public void Initialize(string root)
         {
@@ -55,14 +60,21 @@ namespace LightBuzz.Settings
 
             if (!_initialized)
             {
-                SettingsDirectory = Path.Combine(_dataPath, SettingsFolderName);
+                SettingsFilePath = Path.Combine(_dataPath, SettingsFileName);
 
-                if (!Directory.Exists(SettingsDirectory))
+                if (!File.Exists(SettingsFilePath))
                 {
-                    Directory.CreateDirectory(SettingsDirectory);
+                    File.WriteAllText(SettingsFilePath, string.Empty, Encoding.UTF8);
                 }
 
                 _initialized = true;
+            }
+
+            _settings = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(SettingsFilePath));
+
+            if (_settings == null)
+            {
+                _settings = new Dictionary<string, string>();
             }
         }
 
@@ -70,54 +82,59 @@ namespace LightBuzz.Settings
         {
             Check();
 
-            string file = Path.Combine(SettingsDirectory, key);
-
-            if (!File.Exists(file))
+            if (_settings.ContainsKey(key))
             {
-                File.Create(file).Close();
+                _settings[key] = value;
+            }
+            else
+            {
+                _settings.Add(key, value);
             }
 
-            File.WriteAllText(file, value);
+            Serialize();
         }
 
         public string Get(string key)
         {
             Check();
-
-            string file = Path.Combine(SettingsDirectory, key);
-
-            if (!File.Exists(file))
+            
+            if (!_settings.ContainsKey(key))
             {
-                File.Create(file).Close();
+                Set(key, default(string));
             }
 
-            return File.ReadAllText(file);
+            return _settings[key];
         }
 
         public void Delete(string key)
         {
             Check();
 
-            string file = Path.Combine(SettingsDirectory, key);
-
-            if (File.Exists(file))
+            if (_settings.ContainsKey(key))
             {
-                File.Delete(file);
+                _settings.Remove(key);
             }
+
+            Serialize();
         }
 
         public bool Has(string key)
         {
             Check();
 
-            string file = Path.Combine(SettingsDirectory, key);
-
-            return File.Exists(file);
+            return _settings.ContainsKey(key);
         }
 
         private void Check()
         {
             if (!_initialized) throw new Exception("Settings are not initialized. Call the Settings.Initialize() method from Unity's main thread.");
+        }
+
+        private void Serialize()
+        {
+            string json = JsonConvert.SerializeObject(_settings);
+
+            File.WriteAllText(SettingsFilePath, json);
         }
     }
 }
