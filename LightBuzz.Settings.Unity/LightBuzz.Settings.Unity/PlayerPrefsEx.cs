@@ -38,7 +38,7 @@ namespace LightBuzz.Settings
 
         #endregion
 
-        private readonly string SettingsFileName = "Settings.lbz";
+        private readonly string SettingsFileName = "Settings";
 
         private string _dataPath;
         private bool _initialized = false;
@@ -91,7 +91,7 @@ namespace LightBuzz.Settings
                 _settings.Add(key, value);
             }
 
-            Serialize();
+            Save();
         }
 
         public string Get(string key)
@@ -115,7 +115,7 @@ namespace LightBuzz.Settings
                 _settings.Remove(key);
             }
 
-            Serialize();
+            Save();
         }
 
         public bool Has(string key)
@@ -130,7 +130,19 @@ namespace LightBuzz.Settings
             if (!_initialized) throw new Exception("Settings are not initialized. Call the Settings.Initialize() method from Unity's main thread.");
         }
 
-        private void Serialize()
+        public void ClearAll()
+        {
+            if (_settings != null)
+            {
+                _settings.Clear();
+            }
+
+            _settings = new Dictionary<string, string>();
+
+            Save();
+        }
+
+        public void Save()
         {
             string json = JsonConvert.SerializeObject(_settings);
 
