@@ -120,9 +120,9 @@ namespace LightBuzz.Settings
         /// <summary>
         /// USE CAUTIOUSLY! This method will delete all of the Settings!
         /// </summary>
-        public static void ClearAll()
+        public static void DeleteAll()
         {
-            PlayerPrefsEx.Instance.ClearAll();
+            PlayerPrefsEx.Instance.DeleteAll();
         }
     }
 }

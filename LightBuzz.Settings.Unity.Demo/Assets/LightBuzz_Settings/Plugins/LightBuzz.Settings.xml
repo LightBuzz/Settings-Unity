@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LightBuzz.Settings</name>
+    </assembly>
+    <members>
+        <member name="P:LightBuzz.Settings.PlayerPrefsEx.SettingsFilePath">
+            <summary>
+            The directory where the settings key/values will be stored.
+            </summary>
+        </member>
+        <member name="T:LightBuzz.Settings.Settings">
+            <summary>
+            Provides some utility methods for setting, getting and deleting application data.
+            </summary>
+        </member>
+        <member name="M:LightBuzz.Settings.Settings.Initialize">
+            <summary>
+            Initializes the settings module.
+            </summary>
+        </member>
+        <member name="M:LightBuzz.Settings.Settings.Initialize(System.String)">
+            <summary>
+            Initializes the settings module.
+            </summary>
+            <param name="root">The root of the application, where the settings folder will be stored.</param>
+        </member>
+        <member name="M:LightBuzz.Settings.Settings.Set``1(System.String,``0)">
+            <summary>
+            Inserts the specified value to the specified settings key, or creates a new pair.
+            </summary>
+            <param name="key">The name of the setting.</param>
+            <param name="value">The content of the setting.</param>
+        </member>
+        <member name="M:LightBuzz.Settings.Settings.Get``1(System.String)">
+            <summary>
+            Retrieves the contents of the specified setting key.
+            </summary>
+            <param name="key">The name of the setting.</param>
+            <returns>The content of the specified setting.</returns>
+        </member>
+        <member name="M:LightBuzz.Settings.Settings.Get``1(System.String,``0)">
+            <summary>
+            Retrieves the contents of the specified setting key.
+            </summary>
+            <param name="key">The name of the setting.</param>
+            <param name="defaultValue">The default value returned, if the key isn't found.</param>
+            <returns>The content of the specified setting.</returns>
+        </member>
+        <member name="M:LightBuzz.Settings.Settings.Remove(System.String)">
+            <summary>
+            Deletes the specified setting.
+            </summary>
+            <param name="key">The name of the setting.</param>
+        </member>
+        <member name="M:LightBuzz.Settings.Settings.DeleteAll">
+            <summary>
+            USE CAUTIOUSLY! This method will delete all of the Settings!
+            </summary>
+        </member>
+    </members>
+</doc>

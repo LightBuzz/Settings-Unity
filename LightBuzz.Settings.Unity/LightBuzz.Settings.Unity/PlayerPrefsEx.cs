@@ -130,7 +130,7 @@ namespace LightBuzz.Settings
             if (!_initialized) throw new Exception("Settings are not initialized. Call the Settings.Initialize() method from Unity's main thread.");
         }
 
-        public void ClearAll()
+        public void DeleteAll()
         {
             if (_settings != null)
             {
