@@ -38,7 +38,7 @@ namespace LightBuzz.Settings
 
         #endregion
 
-        private readonly string SettingsFileName = "Settings";
+        private readonly string SettingsFileName = "Settings.lbz";
 
         private string _dataPath;
         private bool _initialized = false;

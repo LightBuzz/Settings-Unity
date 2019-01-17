@@ -13,7 +13,7 @@ namespace LightBuzz.Settings
         /// </summary>
         public static void Initialize()
         {
-            PlayerPrefsEx.Instance.Initialize(UnityEngine.Application.persistentDataPath);
+            Initialize(UnityEngine.Application.persistentDataPath);
         }
 
         /// <summary>
