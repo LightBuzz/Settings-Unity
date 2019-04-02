@@ -32,7 +32,7 @@ namespace LightBuzz.Settings
         /// <param name="value">The content of the setting.</param>
         public static void Set<T>(string key, T value)
         {
-            PlayerPrefsEx.Instance.Set(key, Convert.ToString(value));
+            PlayerPrefsEx.Instance.Set(key, Convert.ToString(value, CultureInfo.InvariantCulture));
         }
 
         /// <summary>
